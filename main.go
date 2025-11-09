@@ -1,8 +1,22 @@
 package main
 
 import (
-	mqtt "simulator/src/core"
+
+	"log"
+  mqtt "simulator/src/core"
+	"github.com/hajimehoshi/ebiten/v2"
+	"simulator/src/gui"
 )
-func main(){
-	mqtt.InitMqtt()
+
+func main() {
+	game := gui.StartUI()
+  mqtt.InitMqtt()
+
+	ebiten.SetWindowSize(640, 480)
+	ebiten.SetWindowTitle("Simulador WarmHeart IoT")
+
+	if err := ebiten.RunGame(game); err != nil {
+		log.Fatal(err)
+	}
 }
+
