@@ -1,14 +1,16 @@
 package main
 
 import (
-	"log"
 
+	"log"
+  mqtt "simulator/src/core"
 	"github.com/hajimehoshi/ebiten/v2"
 	"simulator/src/gui"
 )
 
 func main() {
 	game := gui.StartUI()
+  mqtt.InitMqtt()
 
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("Simulador WarmHeart IoT")
@@ -17,3 +19,4 @@ func main() {
 		log.Fatal(err)
 	}
 }
+
