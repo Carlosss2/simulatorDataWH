@@ -86,21 +86,21 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	// Fondo cálido
 	screen.Fill(ColorBackground)
 
-	// Título principal (azul para confianza)
+	// Título principal
 	text.Draw(screen, "Area de Simulacion", basicfont.Face7x13, 20, 30, ColorSecondary)
 
-	// === Tarjeta Raspberry ===
+	// Tarjeta Raspberry
 	drawPanel(screen, 20, 50, 600, 120, ColorPanel)
 	text.Draw(screen, "Raspberry Pi 4", basicfont.Face7x13, 40, 80, ColorPrimary)
 	text.Draw(screen, "Controlador Principal", basicfont.Face7x13, 40, 100, ColorTextDark)
 
-	// Imagen Raspberry con tamaño balanceado
+	// Imagen Raspberry 
 	op1 := &ebiten.DrawImageOptions{}
 	op1.GeoM.Scale(0.15, 0.15)
 	op1.GeoM.Translate(200, 45)
 	screen.DrawImage(g.raspberry, op1)
 
-	// === Tarjeta Guante Inteligente ===
+	// Tarjeta Guante Inteligente 
 	drawPanel(screen, 20, 190, 600, 140, ColorPanel)
 	text.Draw(screen, "Guante Inteligente", basicfont.Face7x13, 40, 220, ColorPrimary)
 	text.Draw(screen, "Monitoreo de Ritmo, Movimiento, Temperatura y Oxigenacion", basicfont.Face7x13, 40, 240, ColorTextDark)
@@ -110,7 +110,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	op2.GeoM.Translate(400, 195)
 	screen.DrawImage(g.guante, op2)
 
-	// === Panel de Controles ===
+	// Panel de Controles
 text.Draw(screen, "Controles", basicfont.Face7x13, 20, 360, ColorSecondary)
 
 drawButton(screen, 20, 380, 280, 50, "Iniciar Simulacion", ColorGreenButton)

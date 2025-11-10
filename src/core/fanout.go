@@ -77,7 +77,7 @@ func producer(ctx context.Context, interval time.Duration, jobs chan<- models.De
 			
 			dev := models.DeviceData{
 				IdDevice: 1,
-				IdUser:   1,
+				IdUser:   2,
 			}
 
 			select {
