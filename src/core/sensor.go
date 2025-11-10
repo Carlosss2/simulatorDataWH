@@ -4,33 +4,38 @@ import (
 	"math"
 	"math/rand"
 	"simulator/src/models"
-	"github.com/google/uuid"
 )
 
-// Crea una lectura de sensor genérica
-func GenerateSensorData(sensorType string) *models.SensorData {
-	return &models.SensorData{
-		Id:          uuid.NewString(),
-		Type:        sensorType,
-		Measurement: simulateMeasurement(sensorType),
+// Genera datos simulados de sensores en base a un DeviceData recibido
+func GenerateSensorData(device models.DeviceData) *models.Message {
+
+	return &models.Message{
+		DeviceId:    device.IdDevice,
+		UserID:      device.IdUser,
+		Bpm:         int(simulateMeasurement("HeartRate")),
+		Spo2:        int(simulateMeasurement("Oxygen")),
+		Bpm2:        int(simulateMeasurement("HeartRate")),
+		Moving:      rand.Intn(2) == 1, // true o false aleatorio
+		Temperature: float64(simulateMeasurement("Temperature")),
 	}
 }
 
-// Simula una medición dependiendo del tipo de sensor
-func simulateMeasurement(sensorType string) float32 {
-	var value float32
+// Simula una medición según el tipo de sensor
+func simulateMeasurement(sensorType string) float64 {
+	var value float64
 
 	switch sensorType {
 	case "Temperature":
-		value = 36 + rand.Float32()*2 // 36–38 °C
+		value = 36.0 + rand.Float64()*2.0 // 36–38 °C
 	case "Oxygen":
-		value = 90 + rand.Float32()*10 // 90–100 %
+		value = 90.0 + rand.Float64()*10.0 // 90–100 %
 	case "HeartRate":
-		value = 60 + rand.Float32()*40 // 60–100 bpm
+		value = 60.0 + rand.Float64()*40.0 // 60–100 bpm
 	default:
-		value = rand.Float32() * 100 // valores desconocidos
+		value = rand.Float64() * 100.0 // Valor genérico si no se conoce el tipo
 	}
 
 	// Redondear a dos decimales
-	return float32(math.Round(float64(value)*100) / 100)
+	return math.Round(value*100) / 100
 }
+
