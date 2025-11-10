@@ -10,7 +10,7 @@ import (
 
 func main() {
 	game := gui.StartUI()
-  mqtt.InitMqtt()
+  	mqtt.ConnectMqtt()
 
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("Simulador WarmHeart IoT")
