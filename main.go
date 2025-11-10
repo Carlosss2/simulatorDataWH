@@ -6,12 +6,16 @@ import (
   mqtt "simulator/src/core"
 	"github.com/hajimehoshi/ebiten/v2"
 	"simulator/src/gui"
+	"simulator/src/core"
 )
 
 func main() {
 	game := gui.StartUI()
   	mqtt.ConnectMqtt()
+	core.SubscribeToDeviceData()
 
+    
+	
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("Simulador WarmHeart IoT")
 

@@ -21,7 +21,7 @@ var (
 
 //Funciones go 
 
-func worker(ctx context.Context, workerId int, jobs <-chan models.DeviceData, results chan<- *models.Message, wg *sync.WaitGroup) {
+func worker(ctx context.Context, jobs <-chan models.DeviceData, results chan<- *models.Message, wg *sync.WaitGroup) {
 	defer wg.Done()
 	for {
 		select {
@@ -61,7 +61,7 @@ func publisher(ctx context.Context, results <-chan *models.Message) {
 	}
 }
 
-func producer(ctx context.Context, numDevices int, interval time.Duration, jobs chan<- models.DeviceData, results chan<- *models.Message, wg *sync.WaitGroup) {
+func producer(ctx context.Context, interval time.Duration, jobs chan<- models.DeviceData, results chan<- *models.Message, wg *sync.WaitGroup) {
 	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
 
@@ -74,25 +74,22 @@ func producer(ctx context.Context, numDevices int, interval time.Duration, jobs 
 			return
 
 		case <-ticker.C:
-			for i := 1; i <= numDevices; i++ {
-				dev := models.DeviceData{
-					IdDevice: i,
-					IdUser:   i,
-				}
-				select {
-				case jobs <- dev:
-				case <-ctx.Done():
-					return
-				}
+			
+			dev := models.DeviceData{
+				IdDevice: 1,
+				IdUser:   1,
+			}
+
+			select {
+			case jobs <- dev:
+			case <-ctx.Done():
+				return
 			}
 		}
 	}
 }
 
 
-// StartSimulation inicia el patrón fan-out / fan-in que genera mensajes simulados y los publica.
-// numDevices: cuántos dispositivos simular (por ejemplo 5)
-//interval: intervalo entre "requests" generadas por el productor (por ejemplo 500*time.Millisecond)
 func StartSimulation(numDevices int, interval time.Duration) error {
 	simMu.Lock()
 	defer simMu.Unlock()
@@ -113,21 +110,16 @@ func StartSimulation(numDevices int, interval time.Duration) error {
 	results := make(chan *models.Message)
 
 	workerCount := numDevices
-	if workerCount > 8 {
-		workerCount = 8
-	}
-	if workerCount <= 0 {
-		workerCount = 1
-	}
 
 	var wg sync.WaitGroup
 	for i := 0; i < workerCount; i++ {
 		wg.Add(1)
-		go worker(ctx, i, jobs, results, &wg)
+		go worker(ctx, jobs, results, &wg)
 	}
 
 	go publisher(ctx, results)
-	go producer(ctx, numDevices, interval, jobs, results, &wg)
+	go producer(ctx, interval, jobs, results, &wg)
+
 
 	return nil
 }
