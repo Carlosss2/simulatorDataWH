@@ -26,11 +26,11 @@ func simulateMeasurement(sensorType string) float64 {
 
 	switch sensorType {
 	case "Temperature":
-		value = 36.0 + rand.Float64()*2.0 // 36–38 °C
+		value = 36.0 + rand.Float64()*1.0 // 36–38 °C
 	case "Oxygen":
-		value = 90.0 + rand.Float64()*10.0 // 90–100 %
+		value = 90.0 + rand.Float64()*3.0 // 90–100 %
 	case "HeartRate":
-		value = 60.0 + rand.Float64()*40.0 // 60–100 bpm
+		value = 80.0 + rand.Float64()*10.0 // 60–100 bpm
 	default:
 		value = rand.Float64() * 100.0 // Valor genérico si no se conoce el tipo
 	}
